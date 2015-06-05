@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+
 start() {
 	echo 'Starting OpenVPN Network';
 	vagrant up
@@ -13,7 +15,7 @@ stop() {
 delete() {
 	echo 'Deleteing OpenVPN Network';
 	vagrant destroy -f
-	VBoxManage hostonlyif remove vboxnet0
+	VBoxManage hostonlyif remove vboxnet0 1>/dev/null 2>&1
 }
 
 case "$1" in 
