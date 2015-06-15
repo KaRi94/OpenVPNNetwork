@@ -27,7 +27,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		ovpn_server.vm.provision "file", source: "cert/ca.crt", destination: "/tmp/openvpn/ca.crt"
 		ovpn_server.vm.provision "file", source: "cert/server/ipp.txt", destination: "/tmp/openvpn/ipp.txt"
-		ovpn_server.vm.provision "file", source: "cert/server/staticclients", destination: "/tmp/openvpn/staticclients"
 		ovpn_server.vm.provision "file", source: "cert/server/dh2048.pem", destination: "/tmp/openvpn/dh2048.pem"
 		ovpn_server.vm.provision "file", source: "cert/server/openvpn-server.crt", destination: "/tmp/openvpn/openvpn-server.crt"
 		ovpn_server.vm.provision "file", source: "cert/server/openvpn-server.key", destination: "/tmp/openvpn/openvpn-server.key"
@@ -104,14 +103,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		local_client1.vm.network "private_network", ip: INTERNAL_IP_LOCAL1, virtualbox__intnet: "LOCAL1"
 
-		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL1] if MODE == :tun
-		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
-
 		local_client1.vm.provision "file", source: "scripts/dhcpd.conf", destination: "/tmp/dhcpd.conf"  if MODE == :tap
 		local_client1.vm.provision "file", source: "scripts/isc-dhcp-server", destination: "/tmp/isc-dhcp-server"  if MODE == :tap
 
 		local_client1.vm.provision "shell", path: "scripts/local1.sh", args: ["III"] if MODE == :tun
 		local_client1.vm.provision "shell", path: "scripts/local1.sh", args: ["II"] if MODE == :tap
+
+		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL1] if MODE == :tun
+		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
 
 		local_client1.vm.provider "virtualbox" do |vb|
 		  vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]

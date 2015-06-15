@@ -15,7 +15,7 @@ stop() {
 }
 
 delete() {
-	echo 'Deleteing OpenVPN Network'
+	echo 'Deleting OpenVPN Network'
 	/usr/bin/vagrant destroy -f
 	sleep 5
 	VBoxManage hostonlyif remove vboxnet0 1>/dev/null 2>&1
