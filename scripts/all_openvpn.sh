@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo apt-get install openvpn tcpdump ntpdate -y
-sudo /etc/init.d/openvpn stop
+sudo service openvpn stop
 
 # Datetime configuration
 sudo rm /etc/localtime
@@ -24,4 +24,5 @@ elif [ $1 = "III" ]; then
 	sudo /sbin/iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j MASQUERADE
 fi
 
-sudo /etc/init.d/openvpn start
+sudo systemctl daemon-reload
+sudo service openvpn start
