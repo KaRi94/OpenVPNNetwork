@@ -155,6 +155,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		attacker.vm.network "private_network", ip: "192.168.1.50"# if MODE == :tun
 		# attacker.vm.network "public_network", ip: "192.168.1.50", bridge: 'eth0' if MODE == :tap
 
+		attacker.vm.provision "shell", path: "scripts/attacker.sh"
+
 		attacker.vm.provider "virtualbox" do |vb|
 		  vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
 		end
