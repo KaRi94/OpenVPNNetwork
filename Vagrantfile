@@ -35,8 +35,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		ovpn_server.vm.provision "file", source: "scripts/openvpn-bridge", destination: "/tmp/openvpn/openvpn-bridge"  if MODE == :tap
 
-		ovpn_server.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_SERVER] if MODE == :tun
-		ovpn_server.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
+		ovpn_server.vm.provision "file", source: "scripts/all_openvpn.sh", destination: "/tmp/all_openvpn.sh"  if MODE == :tun
+
+		ovpn_server.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_SERVER] if MODE == :tun
+		ovpn_server.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
 	end
 
 	config.vm.define "OVPNClient1" do |ovpn_client1|
@@ -63,8 +65,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		ovpn_client1.vm.provision "file", source: "scripts/openvpn-bridge", destination: "/tmp/openvpn/openvpn-bridge"  if MODE == :tap
 
-		ovpn_client1.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_CLIENT1] if MODE == :tun
-		ovpn_client1.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
+		ovpn_client1.vm.provision "file", source: "scripts/all_openvpn.sh", destination: "/tmp/all_openvpn.sh"  if MODE == :tun
+
+		ovpn_client1.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_CLIENT1] if MODE == :tun
+		ovpn_client1.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
 	end
 
 	config.vm.define "OVPNClient2" do |ovpn_client2|
@@ -91,8 +95,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		ovpn_client2.vm.provision "file", source: "scripts/openvpn-bridge", destination: "/tmp/openvpn/openvpn-bridge"  if MODE == :tap
 
-		ovpn_client2.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_CLIENT2] if MODE == :tun
-		ovpn_client2.vm.provision "shell", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
+		ovpn_client2.vm.provision "file", source: "scripts/all_openvpn.sh", destination: "/tmp/all_openvpn.sh"  if MODE == :tun
+
+		ovpn_client2.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["III", INTERNAL_IP_CLIENT2] if MODE == :tun
+		ovpn_client2.vm.provision "shell", run: "always", path: "scripts/all_openvpn.sh", args: ["II"] if MODE == :tap
 	end
 
 	config.vm.define "LocalClient1" do |local_client1|
@@ -109,8 +115,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		local_client1.vm.provision "shell", path: "scripts/local1.sh", args: ["III"] if MODE == :tun
 		local_client1.vm.provision "shell", path: "scripts/local1.sh", args: ["II"] if MODE == :tap
 
-		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL1] if MODE == :tun
-		local_client1.vm.provision "shell", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
+		local_client1.vm.provision "file", source: "scripts/all_locals.sh", destination: "/tmp/all_locals.sh"  if MODE == :tun
+
+		local_client1.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL1] if MODE == :tun
+		local_client1.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
 
 		local_client1.vm.provider "virtualbox" do |vb|
 		  vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
@@ -125,8 +133,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		local_client2.vm.network "private_network", ip: INTERNAL_IP_LOCAL2, virtualbox__intnet: "LOCAL2"
 
-		local_client2.vm.provision "shell", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL2] if MODE == :tun
-		local_client2.vm.provision "shell", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
+		local_client2.vm.provision "file", source: "scripts/all_locals.sh", destination: "/tmp/all_locals.sh"  if MODE == :tun
+
+		local_client2.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL2] if MODE == :tun
+		local_client2.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
 
 		local_client2.vm.provider "virtualbox" do |vb|
 		  vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
@@ -141,8 +151,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		local_client3.vm.network "private_network", ip: INTERNAL_IP_LOCAL3, virtualbox__intnet: "LOCAL3"
 
-		local_client3.vm.provision "shell", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL3] if MODE == :tun
-		local_client3.vm.provision "shell", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
+		local_client3.vm.provision "file", source: "scripts/all_locals.sh", destination: "/tmp/all_locals.sh"  if MODE == :tun
+
+		local_client3.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["III", INTERNAL_IP_LOCAL3] if MODE == :tun
+		local_client3.vm.provision "shell", run: "always", path: "scripts/all_locals.sh", args: ["II"] if MODE == :tap
 
 		local_client3.vm.provider "virtualbox" do |vb|
 		  vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
